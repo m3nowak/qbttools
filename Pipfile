@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+qbittorrent-api = "~=2022.10"
+feedparser = "~=6.0"
+pydantic = "~=1.10"
+
+[dev-packages]
+autopep8 = "~=2.0"
+
+[requires]
+python_version = "3.7"
