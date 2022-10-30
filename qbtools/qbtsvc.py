@@ -69,5 +69,7 @@ class QbtSvc():
         self._assure_setup()
         if not category:
             category = ''
-        self._client.torrents_add(
-            magnet_link, download_path=save_path, category=category, is_paused=not start)
+        resp = self._client.torrents_add(
+            magnet_link, save_path=save_path, category=category, is_paused=not start)
+        print(resp)
+        #self._client.torrents_set_save_path(save_path)
