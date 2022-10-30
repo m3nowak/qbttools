@@ -7,6 +7,7 @@ import pydantic
 
 import qbtools.config
 import qbtools.qbtsvc
+import qbtools.feed
 
 CONFIG_FILENAME = 'qbtools.conf'
 
@@ -60,3 +61,21 @@ def expire_category(args: argparse.Namespace):
     svc.setup()
     count = svc.remove_category_from_old(category, dt.datetime.now()-dt.timedelta(days=days))
     print(f"Removed {count}.")
+
+def feed_update(args: argparse.Namespace):
+    start_entry = not args.paused
+    config = _read_config()
+    svc = qbtools.qbtsvc.QbtSvc(config.qbt_access)
+    svc.setup()
+    count = 0
+    for feed_config in config.feeds:
+        feed = qbtools.feed.Feed(feed_config.url)
+        feed.load()
+        for rule in feed_config.rules:
+            for entry in feed.filter_by_title(rule.phrase, rule.date_limit):
+                svc.add_magnet(entry.link, start_entry, rule.category, rule.save_path)
+                count += 1
+    print(f"Found {count} entries!")
+
+            
+
