@@ -73,7 +73,7 @@ def feed_update(args: argparse.Namespace):
         feed.load()
         for rule in feed_config.rules:
             for entry in feed.filter_by_title(rule.phrase, rule.date_limit):
-                print("saving to {rule.save_path}")
+                print(f"saving to {rule.save_path}")
                 svc.add_magnet(entry.link, start_entry, rule.category, rule.save_path)
                 count += 1
     print(f"Found {count} entries!")
