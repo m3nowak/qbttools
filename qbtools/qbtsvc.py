@@ -54,7 +54,7 @@ class QbtSvc():
             self._client.torrents_pause(torrent.hash)
             counter += 1
         return counter
-    
+
     def resume_category(self, category: str) -> int:
         self._assure_setup()
         counter = 0
@@ -62,14 +62,10 @@ class QbtSvc():
             self._client.torrents_resume(torrent.hash)
             counter += 1
         return counter
-    
-    
 
     def add_magnet(self, magnet_link: str, start: bool = True, category: ty.Optional[str] = None, save_path: ty.Optional[str] = None):
         self._assure_setup()
         if not category:
             category = ''
-        resp = self._client.torrents_add(
-            magnet_link, save_path=save_path, category=category, is_paused=not start)
-        print(resp)
-        #self._client.torrents_set_save_path(save_path)
+        self._client.torrents_add(
+            magnet_link, save_path=save_path, category=category, is_paused=not start, use_auto_torrent_management=False)
